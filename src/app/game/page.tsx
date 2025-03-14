@@ -6,7 +6,6 @@ import Keyboard from "@/components/game/Keyboard";
 import {useState} from "react";
 
 
-
 export default function Home() {
 
     const [cells, setCells] = useState(new Array(81).fill(0).map(
@@ -15,17 +14,28 @@ export default function Home() {
         }
     ))
 
+    const validateCell = (index: number, cells: Cell[]) => {
+        const currentCell = cells[index];
+        const nears = currentCell.returnNearestIndexes();
 
 
-    const onKeyPressed = ( index: number, data: number) => {
+        const filterRes = nears.filter((index) => {
+            return cells[index].value == currentCell.value
+        })
 
-        const newCells = Object.assign({}, cells) ;
+        const isValid = filterRes.length == 0;
+
+        currentCell.valid = isValid;
+    }
+
+    const onKeyPressed = (index: number, data: number) => {
+        const newCells = Object.assign({}, cells);
         newCells[index].setNumber(data);
 
-        console.log("called on key pressed", index, data);
+        validateCell(index, newCells);
+
         setCells(newCells);
     };
-
 
 
     const result = [];
