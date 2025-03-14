@@ -1,5 +1,6 @@
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -8,7 +9,10 @@ export default function Home() {
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <div className="min-h-screen flex items-center justify-center ">
 
-          <Button>New Game!!!! 111</Button>
+          <Button >
+              <Link href={"/game/"}>Test</Link>
+
+          </Button>
         </div>
 
       </main>
