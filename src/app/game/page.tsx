@@ -3,16 +3,45 @@ import {Button} from "@/components/ui/button";
 
 
 export default function Home() {
-    return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-                <div className="min-h-screen flex items-center justify-center ">
+    const colors = [
+        "bg-red-500",
+        "bg-cyan-500",
+        "bg-amber-500",
+        "bg-yellow-500",
+        "bg-lime-500",
+        "bg-green-500",
+        "bg-emerald-500",
+        "bg-teal-500",
+        "bg-cyan-500"
+    ]
+    const cells = new Array(81).fill(
+        {"color": ""}
+    ).map(
+        (value, index) => {
+            const column = index % 9; //0-8
+            const row = Math.trunc(index / 9); //0-8
 
-                    <Button>Test button</Button>
-                </div>
+            const colorColumn = Math.trunc(column / 3);
+            const colorRow = Math.trunc(row / 3);
 
-            </main>
+            return {"color": colors[colorRow * 3 + colorColumn]};
 
-        </div>
-    );
+        }
+    )
+
+
+    // const cells = [1,2,3];
+
+    const result = [];
+
+    for (let i = 0; i <= 8; i++) {
+
+        for (let j = 0; j <= 8; j++) {
+            result.push(<Button key={i * 9 + j} className={cells[i * 9 + j].color}>T</Button>)
+        }
+        result.push(<br/>);
+    }
+    return <>
+        {result}
+    </>;
 }
