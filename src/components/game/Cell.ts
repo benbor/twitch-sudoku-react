@@ -13,6 +13,7 @@ const colors = [
 
 export default class ColorClass {
     color: string;
+    value?: number;
 
     constructor(index: number) {
         this.color = this.#getColorByIndex(index);
@@ -32,5 +33,9 @@ export default class ColorClass {
 
 
         return colors[colorRow * 3 + colorColumn];
+    }
+
+    setNumber(data?: number) {
+        this.value = data;
     }
 }
