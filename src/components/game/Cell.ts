@@ -21,7 +21,7 @@ export default class ColorClass {
     valid: boolean;
 
     constructor(index: number) {
-        this.color = ColorClass.#getColorByIndex(index);
+        this.color = ColorClass.getColorByIndex(index);
         this.index = index;
         this.valid = true;
     }
@@ -36,15 +36,20 @@ export default class ColorClass {
 
     }
 
-    static #getColorByIndex(index: number): string {
+    private static getColorByIndex(index: number): string {
+        return colors[this.getSquareIndex(index)];
+    }
+
+
+    private static getSquareIndex(index: number) {
+
         const column = index % 9; //0-8
         const row = Math.trunc(index / 9); //0-8
 
         const colorColumn = Math.trunc(column / 3);
         const colorRow = Math.trunc(row / 3);
 
-
-        return colors[colorRow * 3 + colorColumn];
+        return  colorRow * 3 + colorColumn;
     }
 
     returnNearestIndexes(): number[] {
@@ -59,10 +64,30 @@ export default class ColorClass {
         for (let i = column; i < 81 ; i = i + 9) {
             result.add(i);
         }
+        this.addSquareNearestIndexes(column, row, result);
 
         result.delete(this.index);
 
         return [...result.values()];
+    }
+
+    private addSquareNearestIndexes(column: number, row: number, result: Set<number>) {
+        const squareColumn = Math.trunc(column / 3);
+        const squareRow = Math.trunc(row / 3);
+        console.log("squareColumn: ", squareColumn, "squareRow: ", squareRow)
+
+        const columnOffset = squareColumn * 3;
+        const rawOffset = squareRow * 3 * 9;
+
+        const finalFirstIndex = rawOffset + columnOffset;
+
+        console.log("finalFirstIndex: ", finalFirstIndex)
+
+        for (let x = finalFirstIndex; x < finalFirstIndex + 3; x++) {
+            for (let y = x; y < x + 27; y += 9) {
+                result.add(y);
+            }
+        }
     }
 
     setNumber(data?: number) {
