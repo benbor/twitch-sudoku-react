@@ -84,6 +84,12 @@ class Field {
             this.copyByIndex(fromColumn, toColumn);
         }
     }
+
+    public thinOut() {
+        for (let i = 0; i < 5; i++) {
+            this.cellValues[Math.round(Math.random() * 81)] = null;
+        }
+    }
 }
 
 
@@ -109,6 +115,8 @@ class Field {
 
 function initValues(): number[] {
     const field = new Field();
+
+    field.thinOut();
 
     // field.generateFirstSquare();
 

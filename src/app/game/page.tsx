@@ -7,24 +7,22 @@ import {useState} from "react";
 import {initValues} from "@/lib/game/GameInitor";
 import {black} from "next/dist/lib/picocolors";
 
+const initMap = () => {
+    return initValues().map(
+        (value, index) => {
+            return new Cell(index, value);
+        }
+    )
+}
+
 
 export default function Home() {
 
 
-    const [cells, setCells] = useState(() => {
-        return initValues().map(
-            (value, index) => {
-                return new Cell(index, value);
-            }
-        )
-    })
+    const [cells, setCells] = useState(initMap());
 
     const resetState = () => {
-        setCells(initValues().map(
-            (value, index) => {
-                return new Cell(index, value);
-            }));
-
+        setCells(initMap());
     }
 
     const validateCell = (index: number, cells: Cell[]) => {
