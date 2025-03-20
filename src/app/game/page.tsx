@@ -1,18 +1,31 @@
 "use client";
 import {Button} from "@/components/ui/button";
-import Cell from "@/components/game/Cell";
+import {Cell} from "@/lib/cell";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import Keyboard from "@/components/game/Keyboard";
 import {useState} from "react";
+import {initValues} from "@/lib/game/GameInitor";
+import {black} from "next/dist/lib/picocolors";
 
 
 export default function Home() {
 
-    const [cells, setCells] = useState(new Array(81).fill(0).map(
-        (_: any, index) => {
-            return new Cell(index);
-        }
-    ))
+
+    const [cells, setCells] = useState(() => {
+        return initValues().map(
+            (value, index) => {
+                return new Cell(index, value);
+            }
+        )
+    })
+
+    const resetState = () => {
+        setCells(initValues().map(
+            (value, index) => {
+                return new Cell(index, value);
+            }));
+
+    }
 
     const validateCell = (index: number, cells: Cell[]) => {
         const currentCell = cells[index];
@@ -46,7 +59,7 @@ export default function Home() {
             const index = i * 9 + j;
             result.push(<Button key={index} className={cells[index].getColor()}>
                 <Popover>
-                    <PopoverTrigger>{cells[index].value ?? "_"}</PopoverTrigger>
+                    <PopoverTrigger className={"text-black"}>{cells[index].value ?? "_"}</PopoverTrigger>
                     <PopoverContent>
                         <Keyboard cellIndex={index} sendDataToParent={onKeyPressed}></Keyboard>
                     </PopoverContent>
@@ -57,5 +70,7 @@ export default function Home() {
     }
     return <>
         {result}
+    <Button key={"restart"} onClick={()=>{resetState()}}> RESTART!! </Button>
+
     </>;
 }

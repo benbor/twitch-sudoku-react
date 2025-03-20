@@ -14,15 +14,17 @@ enum Error {
     INVALID = "bg-red-900",
 }
 
-export default class ColorClass {
+// @refresh reset
+export class Cell {
     color: string;
     value?: number;
     index: number;
     valid: boolean;
 
-    constructor(index: number) {
-        this.color = ColorClass.getColorByIndex(index);
+    constructor(index: number, initValue?: number) {
+        this.color = Cell.getColorByIndex(index);
         this.index = index;
+        this.value = initValue;
         this.valid = true;
     }
 
@@ -74,15 +76,13 @@ export default class ColorClass {
     private addSquareNearestIndexes(column: number, row: number, result: Set<number>) {
         const squareColumn = Math.trunc(column / 3);
         const squareRow = Math.trunc(row / 3);
-        console.log("squareColumn: ", squareColumn, "squareRow: ", squareRow)
 
         const columnOffset = squareColumn * 3;
         const rawOffset = squareRow * 3 * 9;
 
         const finalFirstIndex = rawOffset + columnOffset;
 
-        console.log("finalFirstIndex: ", finalFirstIndex)
-
+         console.log(finalFirstIndex);
         for (let x = finalFirstIndex; x < finalFirstIndex + 3; x++) {
             for (let y = x; y < x + 27; y += 9) {
                 result.add(y);
